@@ -43,7 +43,7 @@ class Resource(object):
         if c_type in ['application/json', 'text/json']:
             if not self.request.body:
                 return default
-            return self.loads(self.request.body)
+            return json.loads(self.request.body)
         if self.request.method == 'GET':
             return self.request.GET
         return self.request.POST

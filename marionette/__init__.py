@@ -3,6 +3,7 @@ from cgi import parse_header
 import json
 
 from django.http import HttpResponse, Http404
+from django.views.decorators.http import require_POST
 
 RPC_MARKER = '_rpc'
 
@@ -16,6 +17,7 @@ class Resource(object):
 
     @classmethod
     def as_view(cls):
+        @require_POST
         def view(request, *args, **kwargs):
             self = cls(request, *args, **kwargs)
             return self.dispatch(request)
@@ -44,8 +46,6 @@ class Resource(object):
             if not self.request.body:
                 return default
             return json.loads(self.request.body)
-        if self.request.method == 'GET':
-            return self.request.GET
         return self.request.POST
 
 

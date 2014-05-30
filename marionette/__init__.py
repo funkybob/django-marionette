@@ -24,10 +24,10 @@ class Resource(object):
         return view
 
     def dispatch(self, request):
-        method = request.META['HTTP_X_RPC_ACTION']
+        method = request.META.get('HTTP_X_RPC_ACTION', '')
         func = getattr(self, method, None)
         if not getattr(func, RPC_MARKER, True):
-            raise Http404
+            return HttpResponse(status=412)
 
         data = self.get_request_data(request)
 

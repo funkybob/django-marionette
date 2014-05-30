@@ -51,5 +51,5 @@ class Resource(object):
 
 def rpc(view):
     '''Mark a view as accessible via RPC'''
-    setattr(view, '_rpc', True)
+    setattr(view, RPC_MARKER, True)
     return view

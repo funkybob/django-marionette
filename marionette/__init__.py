@@ -29,9 +29,13 @@ class Resource(object):
 
         data = self.get_request_data(request)
 
-        resp = func(data)
+        resp = self.execute(func, data)
 
         return HttpResponse(json.dumps(resp), content_type='application/json')
+
+    def execute(self, handler, data):
+        '''Helpful hook to ease wrapping the handler'''
+        return handler(**data)
 
     def get_request_data(self, default=None):
         '''Retrieve data from request'''

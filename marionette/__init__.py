@@ -4,6 +4,8 @@ import json
 
 from django.http import HttpResponse, Http404
 from django.views.decorators.http import require_POST
+from django.core.serializers.json import DjangoJSONEncoder
+
 
 RPC_MARKER = '_rpc'
 
@@ -32,8 +34,9 @@ class Resource(object):
         data = self.get_request_data(request)
 
         resp = self.execute(func, data)
+        jsonified_resp = json.dumps(resp, cls=DjangoJSONEncoder)
 
-        return HttpResponse(json.dumps(resp), content_type='application/json')
+        return HttpResponse(jsonified_resp, content_type='application/json')
 
     def execute(self, handler, data):
         '''Helpful hook to ease wrapping the handler'''

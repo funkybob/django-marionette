@@ -41,7 +41,7 @@ Some helpful JavaScript for this, if you're using jQuery:
                 'X-RPC-Action': method,
                 'Content-Type': 'application/json'
             },
-            success: callback || undefined
+            success: callback || null
         });
     };
 

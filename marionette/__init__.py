@@ -2,31 +2,21 @@
 from cgi import parse_header
 import json
 
-from django.http import HttpResponse, Http404
-from django.views.decorators.http import require_POST
+from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
 
 
 RPC_MARKER = '_rpc'
 
 
-class Resource(object):
+class RPCMixin(object):
+    '''Mix in to a standard View to provide RPC actions'''
 
-    def __init__(self, request, *args, **kwargs):
-        self.request = request
-        self.args = args
-        self.kwargs = kwargs
+    def dispatch(self, request, *args, **kwargs):
+        method = request.META.get('HTTP_X_RPC_ACTION', None)
+        if request.method != 'POST' or method is None:
+            return super(RPCMixin, self).dispatch(request, *args, **kwargs)
 
-    @classmethod
-    def as_view(cls):
-        @require_POST
-        def view(request, *args, **kwargs):
-            self = cls(request, *args, **kwargs)
-            return self.dispatch(request)
-        return view
-
-    def dispatch(self, request):
-        method = request.META.get('HTTP_X_RPC_ACTION', '')
         func = getattr(self, method, None)
         if not getattr(func, RPC_MARKER, False):
             return HttpResponse(status=412)

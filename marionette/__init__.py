@@ -24,9 +24,9 @@ class RPCMixin(object):
         data = self.get_request_data(request)
 
         resp = self.execute(func, data)
-        jsonified_resp = json.dumps(resp, cls=DjangoJSONEncoder)
+        serialised_resp = json.dumps(resp, cls=DjangoJSONEncoder)
 
-        return HttpResponse(jsonified_resp, content_type='application/json')
+        return HttpResponse(serialised_resp, content_type='application/json')
 
     def execute(self, handler, data):
         '''Helpful hook to ease wrapping the handler'''

@@ -4,6 +4,7 @@ import json
 
 from django.http import HttpResponse
 from django.core.serializers.json import DjangoJSONEncoder
+from django.views.generic import View
 
 
 RPC_MARKER = '_rpc'
@@ -40,6 +41,11 @@ class RPCMixin(object):
                 return default
             return json.loads(self.request.body)
         return self.request.POST
+
+
+class RPCView(RPCMixin, View):
+    '''courtesy class to avoid having to mix it yourself.'''
+    pass
 
 
 def rpc(view):

@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='django-marionette',
-    version='0.0.1',
+    version='0.0.2',
     description='A simple RPC library for Django',
     author='Curtis Maloney',
     author_email='curtis@tinbrain.net',
@@ -19,10 +19,8 @@ setup(
     ],
     requires = [
         'Django (>=1.6)',
-        'six (>=1.3)',
     ],
     install_requires = [
         'Django>=1.6',
-        'six>=1.3',
     ],
 )

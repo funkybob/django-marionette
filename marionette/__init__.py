@@ -3,6 +3,7 @@ from cgi import parse_header
 import json
 
 from django.http import HttpResponse
+from django.core.handlers.wsgi import ISO_8859_1
 from django.core.serializers.json import DjangoJSONEncoder
 from django.views.generic import View
 
@@ -39,7 +40,7 @@ class RPCMixin(object):
         if c_type in ['application/json', 'text/json']:
             if not self.request.body:
                 return default
-            return json.loads(self.request.body)
+            return json.loads(self.request.body.decode(getattr(self.request, 'encoding', ISO_8859_1))
         return self.request.POST
 
 

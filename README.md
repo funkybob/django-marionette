@@ -1,3 +1,9 @@
+============
+DEAD PROJECT
+============
+
+NOTE:  This project is now defunct, and all functionality was merged into django-nap.
+
 django-marionette
 =================
 
